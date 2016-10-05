@@ -8,8 +8,8 @@ app.use(morgan('combined'));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-var hello;
 app.get('/:hello',function(req,res){
+    var hello=req.params.hello;
     res.send(template(hello));
 });
 function template (data){
