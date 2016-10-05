@@ -10,19 +10,8 @@ app.get('/', function (req, res) {
 });
 app.get('/:hello',function(req,res){
     var hello=req.params.hello;
-    res.send(template(hello));
+    res.send(hello);
 });
-function template (data){
-    var final=`
-    <html>
-        <body>
-            ${data}
-        </body>
-    </html>
-    `;
-    return final;
-}
-
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
