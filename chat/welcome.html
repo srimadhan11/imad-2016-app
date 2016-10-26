@@ -2,8 +2,10 @@
     <title>Welcome</title>
     <script>
         function log(){
-            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="+document.getElementById("email").value.toString();
-            url+="&a="+document.getElementById("pass").value.toString();
+            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
+                    +document.getElementById("email").value.toString()
+                    +"&a="
+                    +document.getElementById("pass").value.toString();
             window.location.assign(url);
         }
         function sign(){
