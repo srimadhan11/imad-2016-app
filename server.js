@@ -24,6 +24,10 @@ app.get('/ui/madi.png', function (req, res) {
 });
 
 app.get('/chat',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','welcome.html'));
+});
+
+app.get('/chating',function(req,res){
     var str = req.query.i;
     str+=req.query.j;
     res.send(str.toString());
@@ -34,15 +38,3 @@ var port = 8080; // Use 8080 for local development because you might already hav
 app.listen(8080, function () {
   console.log(`IMAD course app listening on port ${port}!`);
 });
-
-function getParameterByName(name, url) {
-    if (!url) {
-        url = window.location.href;
-    }
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
