@@ -35,7 +35,7 @@ app.get('/chat/prof',function(req,res){
                 pool.query("SELECT * FROM $1" ,[req.query.n],function(err,result){
                     if(err){
                         res.status(500).send(err.toString());
-                    }else{
+                    }else if(result.rows.length===0){
                         re="SUCCESS";
                     }
                 });
