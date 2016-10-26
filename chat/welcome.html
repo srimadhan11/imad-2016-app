@@ -4,10 +4,12 @@
         const email=document.getElementById("email");
         const pass=document.getElementById("pass");
         function log(){
-            window.location.assign("http://www.mozilla.org");
+            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="+email.toString();
+            url+="&a="+pass.toString();
+            window.location.assign(url.toString());
         }
         function sign(){
-            window.location.assign("http://www.mozilla.org");
+            window.location.assign("http://srimadhan11.imad.hasura-app.io/chat/new");
         }
     </script>
     <style>
