@@ -5,6 +5,62 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
+var Pool=require('pg').Pool;
+
+var config={
+    user:'srimadhan11',
+    database:'srimadhan11',
+    host:'db.imad.hasura-app.io',
+    port:'5432',
+    password:process.env.DB_PASSWORD
+};
+
+var pool=new Pool(config);
+
+//chat
+
+app.get('/chat',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','welcome.html'));
+});
+
+app.get('/chat/prof',function(req,res){
+    pool.query("SELECT * FROM usert where name=$1", [req.query.n],function(err,result){
+        if(err){
+            res.status(500).send(err.toString());
+        }else{
+            if(result.rows.length===0 & result.rows.pas!==req.query.a){
+                res.send("User does not exist");
+            }else{
+                res.sendFile(path.join(__dirname,'chat',"prof?t="+req.query.a+".html"));
+            }
+        }
+    });
+});
+
+app.get('/prof',function(req,res){
+    var t=req.query.t;
+    var re="FAILED";
+    pool.query("SELECT * FROM $1" ,[t],function(err,result){
+        if(err){
+            res.status(500).send(err.toString());
+        }else{
+            re="SUCCESS";
+        }
+    });
+    res.send(re);
+});
+
+app.get('/chat/new',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','new.html'));
+});
+
+app.get('/chating',function(req,res){
+    var str = req.query.i;
+    str+=req.query.j;
+    res.send(str.toString());
+});
+
+//chat
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
@@ -21,26 +77,6 @@ app.get('/ui/main.js',function(req,res){
 
 app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'new.html'));
-});
-
-app.get('/chat',function(req,res){
-    res.sendFile(path.join(__dirname,'chat','welcome.html'));
-});
-
-app.get('/chat/prof',function(req,res){
-    var str = req.query.n;
-    str+="\n"+req.query.a;
-    res.send(str.toString());
-});
-
-app.get('/chat/new',function(req,res){
-    res.sendFile(path.join(__dirname,'chat','new.html'));
-});
-
-app.get('/chating',function(req,res){
-    var str = req.query.i;
-    str+=req.query.j;
-    res.send(str.toString());
 });
 
 
