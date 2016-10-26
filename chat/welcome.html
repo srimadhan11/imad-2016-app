@@ -1,16 +1,13 @@
-<html>
-  <head>
+<html><head>
     <title>Welcome</title>
     <script>
-        const btnlog=document.getElementById("login");
-        const btnsign=document.getElementById("signin");
         const email=document.getElementById("email");
         const pass=document.getElementById("pass");
-        btnlog.onclick=function(){
-            window.location.assign("http://www.google.com");
+        function log(){
+            window.location.assign("http://www.mozilla.org");
         }
-        btnsign.onclick=function(){
-            
+        function sign(){
+            window.location.assign("http://www.mozilla.org");
         }
     </script>
     <style>
@@ -65,8 +62,8 @@ input:focus {
         <div align="center" font-family="san-serif">Welcome</div>
         <input class="inp" id="email" type="email" placeholder="E-mail">
         <input class="inp" id="pass" type="password" placeholder="Password">
-        <button id="login" class="btn-pr">Log In</button>
-        <button id="signup" class="btn-sec">Sign In</button>
-    </dir>
-  </body>
-</html>
+        <button id="login" onclick="log()" class="btn-pr">Log In</button>
+        <button id="signup" onclick="sign()" class="btn-sec">Sign In</button>
+    
+  
+</div></body></html>
