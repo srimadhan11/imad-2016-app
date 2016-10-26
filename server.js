@@ -26,7 +26,7 @@ app.get('/chat',function(req,res){
 app.get('/chat/prof',function(req,res){
     var name=req.query.n;
     var pass=req.query.a;
-    pool.query("SELECT * FROM usert WHERE name = $1;",["mad"],function(err,result){
+    pool.query("SELECT * FROM usert WHERE name = $1",['mad'],function(err,result){
         if(err){
             res.status(500).send(err.toString()+"hii");
         }else{
