@@ -33,7 +33,7 @@ app.get('/chat/prof',function(req,res){
             if(result.rows.length===0){
                 res.send("User does not exist");
             }else{
-                res.send(result.row+"$1",["hhhhhhhhhhhhhhhh"]);
+                res.send(result.row);
             }
         }
     });
