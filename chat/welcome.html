@@ -4,10 +4,9 @@
         const email=document.getElementById("email");
         const pass=document.getElementById("pass");
         function log(){
-            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="+email.toString();
-            url+="&a="+pass.toString();
+            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="+email.value.toString();
+            url+="&a="+pass.value.toString();
             window.location.assign(url);
-            return true;
         }
         function sign(){
             window.location.assign("http://srimadhan11.imad.hasura-app.io/chat/new");
