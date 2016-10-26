@@ -28,7 +28,7 @@ app.get('/chat/prof',function(req,res){
         if(err){
             res.status(500).send(err.toString());
         }else{
-            if(result.rows.length===0 & result.rows.pas!==req.query.a){
+            if(result.rows.length===0 & result.rows.pass!==req.query.a){
                 res.send("User does not exist");
             }else{
                 res.sendFile(path.join(__dirname,'chat',"prof?t="+req.query.a+".html"));
