@@ -4,8 +4,8 @@
         const email=document.getElementById("email");
         const pass=document.getElementById("pass");
         function log(){
-            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="+email.value.toString();
-            url+="&a="+pass.value.toString();
+            var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="+document.getElementById("email").value.toString();
+            url+="&a="+document.getElementById("pass").value.toString();
             window.location.assign(url);
         }
         function sign(){
