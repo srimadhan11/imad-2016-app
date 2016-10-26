@@ -23,7 +23,7 @@ app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'new.html'));
 });
 
-app.get('/chat/:string',function(req,res){
+app.get('/chat',function(req,res){
     var str = getParameterByName('i');
     res.send(str.toString());
 });
