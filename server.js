@@ -34,10 +34,9 @@ app.listen(8080, function () {
   console.log(`IMAD course app listening on port ${port}!`);
 });
 
-function getParameterByName(name, url) {
-    if (!url) {
-        url = window.location.href;
-    }
+function getParameterByName(name) {
+    
+    var    url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
