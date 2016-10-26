@@ -28,12 +28,16 @@ app.get('/chat/prof',function(req,res){
     var pass=req.query.a;
     pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
         if(err){
-            res.status(500).send(err.toString()+"hii");
+            res.status(500).send(err.toString());
         }else{
             if(result.rows.length===0){
                 res.send("User does not exist");
             }else{
-                res.send(result.rows[0].pass);
+                if(result.rows[0].pass===pass){
+                    res.send("sucess");
+                }else{
+                    res.send("failed");
+                }
             }
         }
     });
