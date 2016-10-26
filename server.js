@@ -25,6 +25,7 @@ app.get('/ui/madi.png', function (req, res) {
 
 app.get('/chat',function(req,res){
     var str = req.query.i;
+    str+=req.query.j;
     res.send(str.toString());
 });
 
