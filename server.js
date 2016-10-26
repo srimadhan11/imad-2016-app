@@ -31,7 +31,7 @@ app.get('/chat/prof',function(req,res){
             var responce=JSON.parse(result);
             if(result.rows.length===0){
                 res.send("User does not exist");
-            }else if(responce.rows.pass!==req.query.a){
+            }else if(responce.rows[0].pass!==req.query.a){
                 res.send(responce.rows.pass);
             }else{
                 var re="FAILED";
