@@ -26,7 +26,7 @@ app.get('/chat',function(req,res){
 app.get('/chat/prof',function(req,res){
     var name=req.query.n;
     var pass=req.query.a;
-    pool.query("SELECT * FROM usert WHERE name = $1", [name],function(err,result){
+    pool.query("SELECT * FROM usert WHERE name = ($1)", [name],function(err,result){
         if(err){
             res.status(500).send(err.toString()+"hii");
         }else{
@@ -36,7 +36,7 @@ app.get('/chat/prof',function(req,res){
                 res.send(result.rows[0].pass);
             }else{
                 var re="FAILED";
-                pool.query("SELECT * FROM $1" ,[name],function(err,result){
+                pool.query("SELECT * FROM ($1)" ,[name],function(err,result){
                     re+="i";
                     if(err){
                         res.status(500).send(err.toString());
