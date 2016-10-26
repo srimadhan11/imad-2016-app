@@ -24,9 +24,9 @@ app.get('/chat',function(req,res){
 });
 
 app.get('/chat/prof',function(req,res){
-    pool.query("SELECT * FROM usert where name='"+$1+"'", [req.query.n],function(err,result){
+    pool.query("SELECT * FROM usert where name=$1", [req.query.n],function(err,result){
         if(err){
-            res.status(500).send(err.toString()+"hiiii");
+            res.status(500).send(err.toString()+"hii");
         }else{
             if(result.rows.length===0){
                 res.send("User does not exist");
