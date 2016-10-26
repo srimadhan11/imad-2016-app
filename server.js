@@ -32,19 +32,8 @@ app.get('/chat/prof',function(req,res){
         }else{
             if(result.rows.length===0){
                 res.send("User does not exist");
-            }else if(result.row[0].pass==pass){
-                res.send(result.rows[0].pass);
             }else{
-                var re="FAILED";
-                pool.query("SELECT * FROM ($1)" ,[name],function(err,result){
-                    re+="i";
-                    if(err){
-                        res.status(500).send(err.toString());
-                    }else if(result.rows.length===0){
-                        re="SUCCESS";
-                    }
-                });
-                res.send(re);
+                res.send(result);
             }
         }
     });
