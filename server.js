@@ -36,25 +36,13 @@ app.get('/chat/prof',function(req,res){
                 if(result.rows[0].pass===pass){
                     res.send("sucess");
                 }else{
-                    res.send("failed");
+                    res.send("User does not match");
                 }
             }
         }
     });
 });
 
-app.get('/prof',function(req,res){
-    var t=req.query.t;
-    var re="FAILED";
-    pool.query("SELECT * FROM $1" ,[t],function(err,result){
-        if(err){
-            res.status(500).send(err.toString());
-        }else{
-            re="SUCCESS";
-        }
-    });
-    res.send(re);
-});
 
 app.get('/chat/new',function(req,res){
     res.sendFile(path.join(__dirname,'chat','new.html'));
