@@ -27,6 +27,16 @@ app.get('/chat',function(req,res){
     res.sendFile(path.join(__dirname,'chat','welcome.html'));
 });
 
+app.get('/chat/prof',function(req,res){
+    var str = req.query.n;
+    str+="\n"+req.query.a;
+    res.send(str.toString());
+});
+
+app.get('/chat/new',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','new.html'));
+});
+
 app.get('/chating',function(req,res){
     var str = req.query.i;
     str+=req.query.j;
