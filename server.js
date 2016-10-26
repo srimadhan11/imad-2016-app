@@ -31,7 +31,7 @@ app.get('/chat/prof',function(req,res){
             if(result.rows.length===0 & result.rows.pass!==req.query.a){
                 res.send("User does not exist");
             }else{
-                var re="FAILED";
+                var re="FAILE1D";
                 pool.query("SELECT * FROM $1" ,[req.query.n],function(err,result){
                     re+="i";
                     if(err){
