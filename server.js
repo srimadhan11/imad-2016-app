@@ -19,13 +19,37 @@ var pool=new Pool(config);
 
 //chat
 
-app.get('/chat',function(req,res){
-    res.sendFile(path.join(__dirname,'chat','welcome.html'));
+app.get('/chat/prof',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','prof.html'));
 });
 
-app.get('/chat/prof',function(req,res){
+app.get('/chat/validate',function(req,res){
     var name=req.query.n;
-    var pass=req.query.a;
+    var pass=req.query.p;
+                //on valid id and pass return "valid"
+                //else return "nonvalid"
+    pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
+        if(err){
+            res.send("nonvalid");
+        }else{
+            if(result.rows.length===0){
+                res.send("nonvalid");
+            }else{
+                if(result.rows[0].pass===pass){
+                    res.send("valid");
+                }else{
+                    res.send("nonvalid");
+                }
+            }
+        }
+    });
+});
+
+app.get('/chat/create',function(req,res){
+    var name=req.query.n;
+    var pass=req.query.p;
+                //on valid id and pass return "sucess"
+                //else return "failed"
     pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
         if(err){
             res.status(500).send(err.toString());
@@ -43,15 +67,42 @@ app.get('/chat/prof',function(req,res){
     });
 });
 
-
-app.get('/chat/new',function(req,res){
-    res.sendFile(path.join(__dirname,'chat','new.html'));
+app.get('/chat/send',function(req,res){
+    var user=req.query.n;
+    var pass=req.query.p;
+    var msg=req.query.c;
+    var friend=req.query.to;
+    
+    //simply return query responce
 });
 
-app.get('/chating',function(req,res){
-    var str = req.query.i;
-    str+=req.query.j;
-    res.send(str.toString());
+app.get('/chat/search',function(req,res){
+    var user=req.query.n;
+    var pass=req.query.p;
+    var friend=req.query.f;
+    
+    //simply add friend and return query responce
+    
+});
+
+app.get('/chat/p',function(req,res){
+    var name=req.query.n;
+    var pass=req.query.a;
+    pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
+        if(err){
+            res.status(500).send(err.toString());
+        }else{
+            if(result.rows.length===0){
+                res.send("User does not exist");
+            }else{
+                if(result.rows[0].pass===pass){
+                    res.send("sucess");
+                }else{
+                    res.send("User does not match");
+                }
+            }
+        }
+    });
 });
 
 //chat
