@@ -3,25 +3,40 @@
 	<head>
 		<title>Result</title>
 		<script>
-		    //welcome
+            //welcome
+            function st(){
+                document.body.innerHTML="<div class=\"container\">         <div align=\"center\" font-family=\"san-serif\">Welcome</div>         <input class=\"inp\" id=\"email\" type=\"email\" placeholder=\"E-mail\">         <input class=\"inp\" id=\"pass\" type=\"password\" placeholder=\"Password\">         <button id=\"login\" onclick=\"log()\" class=\"btn-pr\">Log In</button>         <button id=\"signup\" onclick=\"sign()\" class=\"btn-sec\">Sign In</button></div>";
+            }
+            
 		    function log(){
-                var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
-                        +document.getElementById("email").value.toString()
-                        +"&a="
-                        +document.getElementById("pass").value.toString();
-                window.location.assign(url);
+                if(valid()){
+                    document.body.innerHTML="<div style=\"display: flex;\">        <div id=\"friend\" style=\"width:30%;\">            <div>                <input class=\"inp\" id=\"friend\" type=\"text\" placeholder=\"Search Friends\">                <button class=\"btn-pr\" id=\"search\" onclick=\"search()\">Search</button>            </div>            <div id=\"fr\">                            </div>        </div>        <div style=\"border-left:solid grey;\"></div>        <div id=\"chat\" style=\"width:70%\">            <div style=\"height:10%\" id=\"friendname\">            </div>            <div style=\"height:80%\" id=\"ch\">                            </div>            <div style=\"height:10%\">                <input class=\"inp\" id=\"msg\" type=\"text\" placeholder=\"Write a message\">                <button class=\"btn-sec\" id=\"send\" onclick=\"send()\">Send</button>            </div>        </div></div>";
+                }else{
+                    document.body.innerHTML="<h1>Invalid user id and password<h1></br><button class=\"btn-sec\" onclick=\"re()\">Back</button>";
+                }
                 
             }
+            function valid(){
+                //on valid id and pass return true
+                //else return false
+            }
+            function re(){
+                window.location.href="http://srimadhan11.imad.hasura-app.io/chat/";
+            }
             function sign(){
-                window.location.assign("http://srimadhan11.imad.hasura-app.io/chat/new");
+                document.body.innerHTML="<div class=\"container\">        <div align=\"center\" font-family=\"san-serif\">Welcome</div>        <input class=\"inp\" id=\"email\" type=\"email\" placeholder=\"E-mail\">        <input class=\"inp\" id=\"pass\" type=\"password\" placeholder=\"Password\">        <button onclick=\"create()\" class=\"btn-pr\">Create & Log In</button></div>";
             }
             //new
             function create(){
-                var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
-                        +document.getElementById("email").value.toString()
-                        +"&a="
-                        +document.getElementById("pass").value.toString();
-                window.location.assign(url);
+                if(creationsuccess()){
+                    st();
+                }else{
+                    document.body.innerHTML="<h1>User already exist<h1></br><button class=\"btn-sec\" onclick=\"re()\">Back</button>";
+                }
+            }
+            function creationsuccess(){
+                //on sucessfull creation return true;
+                //else return false
             }
             //prof
             function send(){
@@ -113,29 +128,6 @@
             }
         </style>
 	</head>
-	<body>
-	<div style="display: flex;">
-        <div id="friend" style="width:30%;">
-            <div>
-                <input class="inp" id="friend" type="text" placeholder="Search Friends">
-                <button class="btn-pr" id="search" onclick="search()">Search</button>
-            </div>
-            <div id="fr">
-                
-            </div>
-        </div>
-        <div style="border-left:solid grey;"></div>
-        <div id="chat" style="width:70%">
-            <div style="height:10%" id="friendname">
-            </div>
-            <div style="height:80%" id="ch">
-                
-            </div>
-            <div style="height:10%">
-                <input class="inp" id="msg" type="text" placeholder="Write a message">
-                <button class="btn-sec" id="send" onclick="send()">Send</button>
-            </div>
-        </div>
-	</div>
+	<body onload="st()">
 	</body>
 </html>
