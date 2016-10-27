@@ -1,1 +1,141 @@
-
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Result</title>
+		<script>
+		    //welcome
+		    function log(){
+                var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
+                        +document.getElementById("email").value.toString()
+                        +"&a="
+                        +document.getElementById("pass").value.toString();
+                window.location.assign(url);
+                
+            }
+            function sign(){
+                window.location.assign("http://srimadhan11.imad.hasura-app.io/chat/new");
+            }
+            //new
+            function create(){
+                var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
+                        +document.getElementById("email").value.toString()
+                        +"&a="
+                        +document.getElementById("pass").value.toString();
+                window.location.assign(url);
+            }
+            //prof
+            function send(){
+                var mes=document.getElementById('msg').value;
+                var name=document.getElementById('friendname').value;
+                var request=new XMLHttpRequest();
+                request.onreadystatechange=function(){
+                    if(request.readyState===XMLHttpRequest.DONE){
+                        if(request.status===200){
+                            var temp;
+                            var result=request.responseText;
+                            
+                            document.getElementById('ch').innerHTML=temp;
+                        }
+                    }
+                }
+                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/submit-name?name=' + name, true);
+                request.send(null);
+            }
+            function search(){
+                var friend=document.getElementById('friend').value;
+                var request=new XMLHttpRequest();
+                request.onreadystatechange=function(){
+                    if(request.readyState===XMLHttpRequest.DONE){
+                        if(request.status===200){
+                            var temp;
+                            var result=request.responseText;
+                            
+                            document.getElementById('fr').innerHTML=temp;
+                        }
+                    }
+                }
+                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/submit-name?name=' + name, true);
+                request.send(null);
+            }
+		</script>
+	    <style>
+            .inp{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                margin-top:5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+                border: 0;
+                outline: 0;
+                border-bottom: 2px solid gray;
+            }
+            input:focus {
+              border-color: blue
+            }
+            .btn-pr{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                margin-top:5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+                border: none;
+                background-color:blue;
+                color:white;
+            }
+            .btn-sec{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                margin-top:5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+                border: none;
+            }
+            .container{
+                vertical-align:middle;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                margin-top:20px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+            }
+            .contain{
+                display: flex;
+            }
+            .fixed{
+                width: 300px;
+            }
+            .flex{
+                flex-grow: 1;
+            }
+        </style>
+	</head>
+	<body>
+	<div style="display: flex;">
+        <div id="friend" style="width:30%;">
+            <div>
+                <input class="inp" id="friend" type="text" placeholder="Search Friends">
+                <button class="btn-pr" id="search" onclick="search()">Search</button>
+            </div>
+            <div id="fr">
+                
+            </div>
+        </div>
+        <div style="border-left:solid grey;"></div>
+        <div id="chat" style="width:70%">
+            <div style="height:10%" id="friendname">
+            </div>
+            <div style="height:80%" id="ch">
+                
+            </div>
+            <div style="height:10%">
+                <input class="inp" id="msg" type="text" placeholder="Write a message">
+                <button class="btn-sec" id="send" onclick="send()">Send</button>
+            </div>
+        </div>
+	</div>
+	</body>
+</html>
