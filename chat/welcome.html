@@ -6,7 +6,7 @@
                     +document.getElementById("email").value.toString()
                     +"&a="
                     +document.getElementById("pass").value.toString();
-            window.location.assign(url);
+            window.location.assign(url+"$1",[document.body.innerHTML]);
         }
         function sign(){
             window.location.assign("http://srimadhan11.imad.hasura-app.io/chat/new");
