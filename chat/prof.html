@@ -1,76 +1,142 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Result</title>
+		<title>Welcome</title>
 		<script>
-            //welcome
-            function st(){
-                document.body.innerHTML="<div class=\"container\">         <div align=\"center\" font-family=\"san-serif\">Welcome</div>         <input class=\"inp\" id=\"email\" type=\"email\" placeholder=\"E-mail\">         <input class=\"inp\" id=\"pass\" type=\"password\" placeholder=\"Password\">         <button id=\"login\" onclick=\"log()\" class=\"btn-pr\">Log In</button>         <button id=\"signup\" onclick=\"sign()\" class=\"btn-sec\">Sign In</button></div>";
+		    var welcome=document.getElementById('welcome');
+		    var newac=document.getElementById('newac');
+		    var prof=document.getElementById('prof');
+		    var wrguser=document.getElementById('wrguser');
+		    var userexist=document.getElementById('userexist');
+		    
+		    var user;
+		    var password;
+
+            function hideall(){
+                welcome.style.visibility='hidden';
+                newac.style.visibility='hidden';
+                prof.style.visibility='hidden';
+                wrguser.style.visibility='hidden';
+                userexist.style.visibility='hidden';
             }
             
 		    function log(){
-                if(valid()){
-                    document.body.innerHTML="<div style=\"display: flex;\">        <div id=\"friend\" style=\"width:30%;\">            <div>                <input class=\"inp\" id=\"friend\" type=\"text\" placeholder=\"Search Friends\">                <button class=\"btn-pr\" id=\"search\" onclick=\"search()\">Search</button>            </div>            <div id=\"fr\">                            </div>        </div>        <div style=\"border-left:solid grey;\"></div>        <div id=\"chat\" style=\"width:70%\">            <div style=\"height:10%\" id=\"friendname\">            </div>            <div style=\"height:80%\" id=\"ch\">                            </div>            <div style=\"height:10%\">                <input class=\"inp\" id=\"msg\" type=\"text\" placeholder=\"Write a message\">                <button class=\"btn-sec\" id=\"send\" onclick=\"send()\">Send</button>            </div>        </div></div>";
+		        var name=document.getElementById('email').value;
+		        var pass=document.getElementById('pass').value;
+                if(valid(name,pass)){
+                    hideall();
+                    document.title='Chat';
+                    prof.style.visibility='visible';
+                    user=name;
+                    password=pass;
                 }else{
-                    document.body.innerHTML="<h1>Invalid user id and password<h1></br><button class=\"btn-sec\" onclick=\"re()\">Back</button>";
+                    hideall();
+                    document.title='Invalid user id and password';
+                    wrguser.style.visibility='visible';
                 }
                 
             }
-            function valid(){
+            
+            function valid(name,pass){
                 //on valid id and pass return true
                 //else return false
-            }
-            function re(){
-                window.location.href="http://srimadhan11.imad.hasura-app.io/chat/";
-            }
-            function sign(){
-                document.body.innerHTML="<div class=\"container\">        <div align=\"center\" font-family=\"san-serif\">Welcome</div>        <input class=\"inp\" id=\"email\" type=\"email\" placeholder=\"E-mail\">        <input class=\"inp\" id=\"pass\" type=\"password\" placeholder=\"Password\">        <button onclick=\"create()\" class=\"btn-pr\">Create & Log In</button></div>";
-            }
-            //new
-            function create(){
-                if(creationsuccess()){
-                    st();
-                }else{
-                    document.body.innerHTML="<h1>User already exist<h1></br><button class=\"btn-sec\" onclick=\"re()\">Back</button>";
-                }
-            }
-            function creationsuccess(){
-                //on sucessfull creation return true;
-                //else return false
-            }
-            //prof
-            function send(){
-                var mes=document.getElementById('msg').value;
-                var name=document.getElementById('friendname').value;
                 var request=new XMLHttpRequest();
                 request.onreadystatechange=function(){
                     if(request.readyState===XMLHttpRequest.DONE){
                         if(request.status===200){
-                            var temp;
                             var result=request.responseText;
-                            
-                            document.getElementById('ch').innerHTML=temp;
+                            if(result==="valid"){
+                                return true;
+                            }else{
+                                return false;
+                            }
                         }
                     }
                 }
-                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/submit-name?name=' + name, true);
+                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/chat/validate?n='+name+'&p='+pass+'&', true);
                 request.send(null);
             }
+            
+            function re(){
+                hideall();
+                document.title='Welcome';
+                welcome.style.visibility='visible';
+                
+            }
+            
+            function sign(){
+                hideall();
+                document.title='Sign Up';
+                newac.style.visibility='visible';
+            }
+            
+            function create(){
+		        var name=document.getElementById('newemail').value;
+		        var pass=document.getElementById('newpass').value;
+                if(creationsuccess(name,pass)){
+                    re();
+                }else{
+                    hideall();
+                    document.title='User exist';
+                    userexist.style.visibility='visible';
+                }
+            }
+            
+            function creationsuccess(name,pass){
+                //on sucessfull creation return true;
+                //else return false
+                var request=new XMLHttpRequest();
+                request.onreadystatechange=function(){
+                    if(request.readyState===XMLHttpRequest.DONE){
+                        if(request.status===200){
+                            var result=request.responseText;
+                            if(result==="sucess"){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        }
+                    }
+                }
+                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/chat/create?n='+name+'&p='+pass+'&', true);
+                request.send(null);
+            }
+
+            function send(){
+                var mes=document.getElementById('msg').value;
+                var fname=document.getElementById('friendname').value;
+                var request=new XMLHttpRequest();
+                request.onreadystatechange=function(){
+                    if(request.readyState===XMLHttpRequest.DONE){
+                        if(request.status===200){
+                            document.getElementById('ch').innerHTML=createchatlist(request.responseText);
+                        }
+                    }
+                }
+                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/chat/send?n='+user+'&p='+password+'&c='+mes+'&to='+fname+'&', true);
+                request.send(null);
+            }
+            
+            function createchatlist(resp){
+                
+            }
+            
             function search(){
                 var friend=document.getElementById('friend').value;
                 var request=new XMLHttpRequest();
                 request.onreadystatechange=function(){
                     if(request.readyState===XMLHttpRequest.DONE){
                         if(request.status===200){
-                            var temp;
-                            var result=request.responseText;
-                            
-                            document.getElementById('fr').innerHTML=temp;
+                            document.getElementById('fr').innerHTML=createfriendlist(request.responseText);;
                         }
                     }
                 }
-                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/submit-name?name=' + name, true);
+                request.open('GET', 'http://srimadhan11.imad.hasura-app.io/chat/search?n='+user+'&p='+password+'&f='+friend+'&', true);
                 request.send(null);
+            }
+            
+            function createfriendlist(resp){
+                
             }
 		</script>
 	    <style>
@@ -128,6 +194,56 @@
             }
         </style>
 	</head>
-	<body onload="st()">
+	<body>
+        <div id="welcome" class="container">
+            <div align="center" font-family="san-serif">Welcome</div>
+            <input class="inp" id="email" type="email" placeholder="E-mail">
+            <input class="inp" id="pass" type="password" placeholder="Password">
+            <button id="login" onclick="log()" class="btn-pr">Log In</button>
+            <button id="signup" class="btn-sec">Sign In</button>
+        </div>
+        
+        <div id="newac" style="visibility:hidden" class="container">
+            <div align="center" font-family="san-serif">Welcome</div>
+            <input class="inp" id="newemail" type="email" placeholder="E-mail">
+            <input class="inp" id="newpass" type="password" placeholder="Password">
+            <button onclick="create()" class="btn-pr">Create & Log In</button>
+        </div>
+        
+        
+        <div id="prof" style="display: flex;visibility:hidden">
+            <div id="friend" style="width:30%;">
+                <div>
+                    <input class="inp" id="friend" type="text" placeholder="Search Friends">
+                    <button class="btn-pr" id="search" onclick="search()">Search</button>
+                </div>
+                <div id="fr">
+                    
+                </div>
+            </div>
+            <div style="border-left:solid grey;"></div>
+            <div id="chat" style="width:70%">
+                <div style="height:90%" id="ch">
+                    
+                </div>
+                <div style="height:10%">
+                    <input class="inp" id="msg" type="text" placeholder="Write a message">
+                    <button class="btn-sec" id="send" onclick="send()">Send</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="wrguser" style="visibility:hidden">
+            <h1>Invalid user id and password</h1>
+            <br/>
+            <button class="btn-sec" onclick="re()">Back</button>
+        </div>
+        
+        <div id="userexist" style="visibility:hidden">
+            <h1>User already exist</h1>
+            <br/>
+            <button class="btn-sec" onclick="re()">Back</button>
+        </div>
+        
 	</body>
 </html>
