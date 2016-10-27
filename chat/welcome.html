@@ -1,6 +1,7 @@
 <html><head>
     <title>Welcome</title>
     <script>
+    document.body.innerHTML=unescape("<div%20class%3D"container">%0A%20%20%20%20%20%20%20%20<div%20align%3D"center"%20font-family%3D"san-serif">Welcome</div>%0A%20%20%20%20%20%20%20%20<input%20class%3D"inp"%20id%3D"email"%20type%3D"email"%20placeholder%3D"E-mail">%0A%20%20%20%20%20%20%20%20<input%20class%3D"inp"%20id%3D"pass"%20type%3D"password"%20placeholder%3D"Password">%0A%20%20%20%20%20%20%20%20<button%20id%3D"login"%20onclick%3D"log%28%29"%20class%3D"btn-pr">Log%20In</button>%0A%20%20%20%20%20%20%20%20<button%20id%3D"signup"%20onclick%3D"sign%28%29"%20class%3D"btn-sec">Sign%20In</button>%0A%20%20%20%20%0A%20%20%0A</div>");
         function log(){
             var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
                     +document.getElementById("email").value.toString()
@@ -60,12 +61,4 @@ input:focus {
 </style>
   </head>
   <body>
-  <div class="container">
-        <div align="center" font-family="san-serif">Welcome</div>
-        <input class="inp" id="email" type="email" placeholder="E-mail">
-        <input class="inp" id="pass" type="password" placeholder="Password">
-        <button id="login" onclick="log()" class="btn-pr">Log In</button>
-        <button id="signup" onclick="sign()" class="btn-sec">Sign In</button>
-    
-  
-</div></body></html>
+  </body></html>
