@@ -1,7 +1,9 @@
 <html><head>
     <title>Welcome</title>
     <script>
+    document.body.onload=function(){
         document.body.innerHTML="<div class=\"container\">         <div align=\"center\" font-family=\"san-serif\">Welcome</div>         <input class=\"inp\" id=\"email\" type=\"email\" placeholder=\"E-mail\">         <input class=\"inp\" id=\"pass\" type=\"password\" placeholder=\"Password\">         <button id=\"login\" onclick=\"log()\" class=\"btn-pr\">Log In</button>         <button id=\"signup\" onclick=\"sign()\" class=\"btn-sec\">Sign In</button></div>";
+    }
         function log(){
             var url="http://srimadhan11.imad.hasura-app.io/chat/prof?n="
                     +document.getElementById("email").value.toString()
