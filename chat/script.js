@@ -89,6 +89,7 @@ function create(){
 
 function send(){
     var mes=document.getElementById('msg').value;
+    document.getElementById('msg').value='';
     var request=new XMLHttpRequest();
     request.onreadystatechange=function(){
         if(request.readyState===XMLHttpRequest.DONE){
@@ -102,6 +103,7 @@ function send(){
 }
 function search(){
     var friend=document.getElementById('friend').value;
+    document.getElementById('friend').value='';
     console.log(friend);
     var request=new XMLHttpRequest();
     request.onreadystatechange=function(){
