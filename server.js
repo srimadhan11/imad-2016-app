@@ -17,27 +17,126 @@ var config={
 
 var pool=new Pool(config);
 
-//chat
+app.get('/chat/chatlist',function(req,res){
+    var name=req.query.n;
+    var pass=req.query.p;
+    var friend=req.query.f;
+    pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
+        if(err){
+            console.log("error");
+            console.log(err.toString());
+            res.send("failed");
+        }else{
+            if(result.rows.length===0){
+                console.log("No user found");
+                res.send("failed");
+            }else{
+                if(result.rows[0].pass===pass){
+                    console.log("User matched");
+                    var friendid;
+                    pool.query("SELECT * FROM "+name+"_f WHERE fr_name = $1",[friend],function(err1,result1){
+                        if(err1){
+                            console.log(err1.toString());
+                            res.send("failed");
+                        }else{
+                            friendid=result1.rows[0].fr_id;
+                            pool.query("SELECT * FROM "+name+" WHERE f_id="+friendid,function(err2,result2){
+                                if(err2){
+                                    console.log("error");
+                                    console.log(err2.toString());
+                                    res.send("failed");
+                                }else{
+                                    console.log("sucess");
+                                    res.send(JSON.stringify(result2));
+                                }
+                            });
+                        }
+                    });
+                }
+                else{
+                    console.log("User not matched");
+                    res.send("failed");
+                }
+            }
+        }
+    });
+});
 
-app.get('/chat/prof',function(req,res){
-    res.sendFile(path.join(__dirname,'chat','prof.html'));
+app.get('/chat/friends',function(req,res){
+    var name=req.query.n;
+    var pass=req.query.p;
+    pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
+        if(err){
+            console.log("error");
+            console.log(err.toString());
+            res.send("nonvalid");
+        }else{
+            if(result.rows.length===0){
+                console.log("No user found");
+                res.send("nonvalid");
+            }else{
+                if(result.rows[0].pass===pass){
+                    console.log("User matched");
+                    pool.query("SELECT * FROM "+name+"_f",function(err1,result1){
+                        if(err){
+                            console.log("error");
+                            console.log(err1.toString());
+                            res.send("nonvalid");
+                        }else{
+                            if (result1.rows.length===0) {
+                                res.send("nonvalid");
+                            }else {
+                                console.log("sucess");
+                                res.send(JSON.stringify(result1.rows));
+                            }
+                        }
+                    });
+                }
+                else{
+                    console.log("User not matched");
+                    res.send("nonvalid");
+                }
+            }
+        }
+    });
+});
+
+app.get('/chat/main.html',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','main.html'));
+});
+
+app.get('/chat/script.js',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','script.js'));
+});
+
+app.get('/chat/style.css',function(req,res){
+    res.sendFile(path.join(__dirname,'chat','style.css'));
+});
+
+app.get('/chat/testing',function(req,res){
+    console.log("testing the app");
+    res.send("Testing");
 });
 
 app.get('/chat/validate',function(req,res){
     var name=req.query.n;
     var pass=req.query.p;
-                //on valid id and pass return "valid"
-                //else return "nonvalid"
-    pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
+    pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
         if(err){
+            console.log("error");
+            console.log(err.toString());
             res.send("nonvalid");
         }else{
             if(result.rows.length===0){
+                console.log("No user found");
                 res.send("nonvalid");
             }else{
                 if(result.rows[0].pass===pass){
+                    console.log("User matched");
                     res.send("valid");
-                }else{
+                }
+                else{
+                    console.log("User not matched");
                     res.send("nonvalid");
                 }
             }
@@ -48,22 +147,62 @@ app.get('/chat/validate',function(req,res){
 app.get('/chat/create',function(req,res){
     var name=req.query.n;
     var pass=req.query.p;
-    var temp="failed";
                 //on id and pass not exist, create and return "sucess"
                 //else return "failed"
-    pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
-        if(!err){
+    pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
+        if(err){
+            console.log(err.toString());
+            res.send("failed");
+	      }else{
             if(result.rows.length===0){
-                temp="sucess";
+                console.log("User does not exist");
+                pool.query("insert into usert values($1,$2)",[name,pass],function(err1){
+                    if(err1){
+                        console.log("Unable to insert into usert table");
+                        res.send("failed");
+        	          }else{
+        		            console.log("inserted into usert table");
+                        pool.query("create table "+name+"_f(fr_name text not null primary key,fr_id serial not null unique,msg_flag smallint not null DEFAULT '0')",function(err2){
+                            if(err2){
+                                console.log("Unable to create "+name+"_f table");
+                                res.send("failed");
+                	          }else{
+                		            console.log(name+"_f table created");
+                                pool.query("alter table "+name+"_f add foreign key (fr_name) references usert(name)",function(err3){
+                                    if(err3){
+                                        console.log("Unable to add foreign key to "+name+"_f table");
+                                        res.send("failed");
+                        	          }else{
+                        		            console.log(name+"_f foreign key added");
+                                        pool.query("create table "+name+"(f_id integer not null,msg text not null,flag smallint not null)",function(err4){
+                                            if(err4){
+                                                console.log("Unable to create "+name+" table");
+                                                res.send("failed");
+                                	          }else{
+                                		            console.log(name+" table created");
+                                                pool.query("alter table "+name+" add foreign key (f_id) references "+name+"_f(fr_id);",function(err5){
+                                                    if(err5){
+                                                        console.log("Unable to add foreign key to "+name+" table");
+                                                        res.send("failed");
+                                        	          }else{
+                                        		            console.log(name+" foreign key added");
+                                                        res.send("sucess");
+                                        	          }
+                                        	      });
+                                	          }
+                                	      });
+                        	          }
+                        	      });
+                	          }
+                	      });
+        	          }
+        	      });
+            }else{
+                console.log("User exist");
+                res.send("failed");
             }
         }
     });
-    if(temp==="failed"){
-        res.send(temp);
-    }else{
-        //transaction on table creation
-        //on completion return sucess
-    }
 });
 
 app.get('/chat/send',function(req,res){
@@ -71,54 +210,250 @@ app.get('/chat/send',function(req,res){
     var pass=req.query.p;
     var msg=req.query.c;
     var friend=req.query.to;
-    
+
     //simply return query responce
-});
 
-app.get('/chat/search',function(req,res){
-    var user=req.query.n;
-    var pass=req.query.p;
-    var friend=req.query.f;
-    var found=false;
-    
-    //simply add friend and return query responce
-    
-    pool.query("SELECT * FROM usert WHERE name = $1 ;",[friend],function(err,result){
-        if(!err){
-            if(result.rows.length!==0){
-                found=true;
-            }
-        }
-    });
-    if(found){
-        //add friend
-        //send responce
-    }else{
-        //send responce
-    }
-});
-
-app.get('/chat/p',function(req,res){
-    var name=req.query.n;
-    var pass=req.query.a;
-    pool.query("SELECT * FROM usert WHERE name = $1 ;",[name],function(err,result){
+    pool.query("SELECT * FROM usert WHERE name = $1",[user],function(err,result){
         if(err){
-            res.status(500).send(err.toString());
+            console.log(err.toString());
+            res.send("failed");
         }else{
             if(result.rows.length===0){
-                res.send("User does not exist");
+                console.log("authentic user not found");
+                res.send("failed");
             }else{
                 if(result.rows[0].pass===pass){
-                    res.send("sucess");
-                }else{
-                    res.send("User does not match");
+                    console.log("User is authentic");
+                    pool.query("SELECT * FROM usert WHERE name = $1",[friend],function(err1,result1){
+                        if(err1){
+                            console.log(err1.toString());
+                            res.send("failed");
+                        }else{
+                            if(result1.rows.length===0){
+                                console.log("friend user not found");
+                                res.send("failed");
+                            }else{
+                                console.log("friend user is found");
+                                pool.query("SELECT * FROM "+user+"_f WHERE fr_name = $1",[friend],function(err2,result2){
+                                    if(err2){
+                                        console.log(err2.toString());
+                                        res.send("failed");
+                                    }else{
+                                        if(result2.rows.length===0){
+                                            console.log("friend is not truefriend of user");
+                                            res.send("failed");
+                                        }else{
+                                            console.log("friend is truefriend of user");
+                                            pool.query("SELECT * FROM "+user+"_f WHERE fr_name = $1",[friend],function(err3,result3){
+                                                if(err3){
+                                                    console.log(err3.toString());
+                                                    res.send("failed");
+                                                }else{
+                                                    var friendid;
+                                                    friendid=result3.rows[0].fr_id;
+                                                    pool.query("SELECT * FROM "+friend+"_f WHERE fr_name = $1",[user],function(err4,result4){
+                                                        if(err4){
+                                                            console.log(err4.toString());
+                                                            res.send("failed");
+                                                        }else{
+                                                            var userid;
+                                                            userid=result4.rows[0].fr_id;
+                                                            pool.query("insert into "+user+" values($1,$2,'1')",[friendid,msg],function(err5){
+                                                                if(err5){
+                                                                    console.log("Unable to insert into user table");
+                                                                }else{
+                                                                    console.log("inserted into user table");
+                                                                }
+                                                            });
+                                                            pool.query("insert into "+friend+" values($1,$2,'0')",[userid,msg],function(err6){
+                                                                if(err6){
+                                                                    console.log("Unable to insert into friend table");
+                                                                }else{
+                                                                    console.log("inserted into friend table");
+                                                                }
+                                                            });
+                                                            pool.query("UPDATE "+friend+"_f SET msg_flag = 1 WHERE fr_name = $1",[user],function(err7){
+                                                                if(err7){
+                                                                    console.log("Unable to insert flag into "+friend+"_f table for "+user);
+                                                                }else{
+                                                                    console.log("inserted flag into "+friend+"_f table for "+user);
+                                                                }
+                                                            });
+                                                            res.send("sucess");
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                else{
+                    console.log("User is not authentic");
+                    res.send("failed");
                 }
             }
         }
     });
 });
 
-//chat
+app.get('/chat/search',function(req,res){
+    var user=req.query.n;
+    var pass=req.query.p;
+    var friend=req.query.f;
+
+    if (user!=friend) {
+        pool.query("SELECT * FROM usert WHERE name = $1",[user],function(err,result){
+            if(err){
+                console.log(err.toString());
+                res.send("notadded");
+            }else{
+                if(result.rows.length===0){
+                    console.log("authentic user not found");
+                    res.send("notadded");
+                }else{
+                    if(result.rows[0].pass===pass){
+                        console.log("User is authentic");
+                        pool.query("SELECT * FROM usert WHERE name = $1",[friend],function(err1,result1){
+                            if(err1){
+                                console.log(err.toString());
+                                res.send("notadded");
+                            }else{
+                                if(result1.rows.length===0){
+                                    console.log("friend user not found");
+                                    console.log(result1.rows.length);
+                                    res.send("notadded");
+                                }else{
+                                    console.log("friend user is found");
+                                    pool.query("insert into "+user+"_f (fr_name) values($1)",[friend],function(err2){
+                                        if(err2){
+                                            console.log("Unable to insert into "+user+"_f table");
+                                        }else{
+                                            console.log("inserted into "+user+"_f table");
+                                        }
+                                    });
+                                    pool.query("insert into "+friend+"_f (fr_name) values($1)",[user],function(err3){
+                                        if(err3){
+                                            console.log("Unable to insert into "+friend+"_f table");
+                                        }else{
+                                            console.log("inserted into "+friend+"_f table");
+                                        }
+                                    });
+                                    pool.query("UPDATE usert SET fr_flag = 1 WHERE name = $1",[friend],function(err4){
+                                        if(err4){
+                                            console.log("Unable to insert flag into usert table");
+                                        }else{
+                                            console.log("inserted flag into usert table");
+                                        }
+                                    });
+                                    res.send("added");
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        console.log("User is not authentic");
+                        res.send("notadded");
+                    }
+                }
+            }
+        });
+    }else {
+        console.log("friend and user are same");
+    }
+});
+
+app.get('/chat/newf',function(req,res){
+    var name=req.query.n;
+    var pass=req.query.p;
+    pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
+        if(err){
+            console.log("error");
+            console.log(err.toString());
+            res.send("nonew");
+        }else{
+            if(result.rows.length===0){
+                console.log("No user found");
+                res.send("nonew");
+            }else{
+                if(result.rows[0].pass===pass){
+                    console.log("User matched");
+                    if (result.rows[0].fr_flag===1) {
+                        pool.query("UPDATE usert SET fr_flag = 0 WHERE name = $1",[name],function(err1){
+                            if(err1){
+                                console.log("Unable to delete flag in usert table for "+name);
+                            }else{
+                                console.log("deleted flag in usert table for "+name);
+                            }
+                        });
+                        res.send("new");
+                    }else {
+                        res.send("nonew");
+                    }
+                }
+                else{
+                    console.log("User not matched");
+                    res.send("nonew");
+                }
+            }
+        }
+    });
+});
+
+app.get('/chat/newmsg',function(req,res){
+    var name=req.query.n;
+    var pass=req.query.p;
+    var friend=req.query.f;
+    pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
+        if(err){
+            console.log("error");
+            console.log(err.toString());
+            res.send("nonew");
+        }else{
+            if(result.rows.length===0){
+                console.log("No user found");
+                res.send("nonew");
+            }else{
+                if(result.rows[0].pass===pass){
+                    console.log("User matched");
+                    pool.query("SELECT * FROM "+name+"_f WHERE fr_name = $1",[friend],function(err1,result1) {
+                        if (err1) {
+                            console.log(err1.toString());
+                            res.send("nonew");
+                        }else {
+                            if (result1.rows.length===0) {
+                                console.log("No friend found");
+                                res.send("nonew");
+                            }else {
+                                if (result1.rows[0].msg_flag===1) {
+                                    pool.query("UPDATE "+name+"_f SET msg_flag = 0 WHERE fr_name = $1",[friend],function(err2){
+                                        if(err2){
+                                            console.log("Unable to delete flag in "+name+"_f table for "+friend);
+                                        }else{
+                                            console.log("deleted flag in "+name+"_f table for "+friend);
+                                        }
+                                    });
+                                    res.send("new");
+                                }else {
+                                    res.send("nonew");
+                                }
+                            }
+                        }
+                    });
+                }
+                else{
+                    console.log("User not matched");
+                    res.send("nonew");
+                }
+            }
+        }
+    });
+});
+
+
 
 
 app.get('/', function (req, res) {
