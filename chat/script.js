@@ -98,6 +98,7 @@ function create(){
 
 function send(){
     var mes=document.getElementById('msg').value;
+    document.getElementById('msg').value='';
     var request=new XMLHttpRequest();
     request.onreadystatechange=function(){
         if(request.readyState===XMLHttpRequest.DONE){
