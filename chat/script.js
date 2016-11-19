@@ -24,6 +24,7 @@ function newac() {
         <input class="inp" id="newemail" type="email" placeholder="Username">
         <input class="inp" id="newpass" type="password" placeholder="Password">
         <button onclick="create()" class="btn-pr">Create & Log In</button>
+        <button class="btn-sec" onclick="welcome()">Back</button>
     </div>`;
     document.title='Sign Up';
 }
