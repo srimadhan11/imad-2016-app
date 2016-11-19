@@ -2,9 +2,7 @@ var user;
 var password;
 var friendd;
 var flag=false;
-var web='http://srimadhan11.imad.hasura-app.io';
-var local='http://localhost:8080';
-var url=local;
+var url='http://srimadhan11.imad.hasura-app.io';
 
 function welcome() {
     document.body.innerHTML=`
