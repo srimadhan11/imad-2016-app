@@ -8,6 +8,7 @@ function welcome() {
     document.body.innerHTML=`
     <div class="container">
         <div align="center" font-family="san-serif" class="text">Welcome</div>
+        <h4>Enter your username and password to enter into your account</h4>
         <input class="inp" id="email" type="email" placeholder="Username">
         <input class="inp" id="pass" type="password" placeholder="Password">
         <button id="login" onclick="log()" class="btn-pr">Log In</button>
@@ -19,9 +20,10 @@ function newac() {
     document.body.innerHTML=`
     <div class="container">
         <div align="center" font-family="san-serif" class="text">Welcome</div>
+        <h4>Create new account</h4>
         <input class="inp" id="newemail" type="email" placeholder="Username">
         <input class="inp" id="newpass" type="password" placeholder="Password">
-        <button onclick="create()" class="btn-pr">Create & Log In</button>
+        <button onclick="create()" class="btn-pr">Create</button>
         <button class="btn-sec" onclick="welcome()">Back</button>
     </div>`;
     document.title='Sign Up';
