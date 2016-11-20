@@ -59,7 +59,7 @@ app.get('/new/lstyle',function(req,res){
 });
 
 
-app.get('/new/:input',function(req,res){
+app.get('/new/hash/:input',function(req,res){
     var hashValue=hash(req.params.input,'someRandomString');
     res.send(hashValue);
 });
