@@ -3,6 +3,7 @@ var notify=document.getElementById('notification');
 function login(){
     var username=document.getElementById('username').value;
     var password=document.getElementById('password').value;
+    var notify=document.getElementById('notification');
     
     var request=new XMLHttpRequest();
     
@@ -26,6 +27,7 @@ function login(){
 function signup(){
     var username=document.getElementById('username').value;
     var password=document.getElementById('password').value;
+    var notify=document.getElementById('notification');
     
     var request=new XMLHttpRequest();
     
