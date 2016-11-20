@@ -31,6 +31,7 @@ app.post('/new/create',function(req,res){
     var username=req.body.username;
     var password=req.body.password;
     var salt=crypto.randomBytes(128).toString('hex');
+    console.log(username+' '+password);
     var pString=hash(password,salt);
     
     
