@@ -2,6 +2,8 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 
+var crypto=require('crypto');
+
 var app = express();
 app.use(morgan('combined'));
 
@@ -16,6 +18,32 @@ var config={
 };
 
 var pool=new Pool(config);
+
+
+//newChat
+function hash(input,salt){
+    var hashed=crypto.pbkdf2Sync(input,salt,1000,512,'sha512');
+    return hashed.toString('hex');
+}
+app.get('/new/:input',function(req,res){
+    var hashValue=hash(req.params.input,'someRandomString');
+    res.send(hashValue);
+});
+
+
+
+//newChat
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/chat/chatlist',function(req,res){
     var name=req.query.n;
