@@ -1,8 +1,8 @@
 var notify=document.getElementById('notification');
 
 function login(){
-    var username=document.getElementById('');
-    var password=document.getElementById('');
+    var username=document.getElementById('username');
+    var password=document.getElementById('password');
     
     var request=new XMLHttpRequest();
     
@@ -24,8 +24,8 @@ function login(){
     request.send(JSON.stringify({username:username, passwword:password}));
 }
 function signup(){
-    var username=document.getElementById('');
-    var password=document.getElementById('');
+    var username=document.getElementById('username');
+    var password=document.getElementById('password');
     
     var request=new XMLHttpRequest();
     
