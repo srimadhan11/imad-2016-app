@@ -42,6 +42,7 @@ app.post('/new/login',function(req,res){
     var username=req.body.username;
     var password=req.body.password;
 });
+
 app.get('/new/index',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','login.html'));
 });
