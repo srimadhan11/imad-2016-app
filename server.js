@@ -32,7 +32,7 @@ app.post('/new/create',function(req,res){
     var password=req.body.password;
     var salt=crypto.randomBytes(128).toString('hex');
     console.log(username+' '+password);
-    var pString=hash(password,salt);
+    var pString=hash(password.toString(),salt);
     
     
     pool.query(`SELECT * FROM usert WHERE name = $1`,[username],function(err,result){
