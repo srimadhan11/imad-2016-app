@@ -96,6 +96,24 @@ app.post('/new/login',function(req,res){
     var username=req.body.username;
     var password=req.body.password;
     
+    pool.query(`SELECT * FROM usert WHERE name = $1`,[username],function(err,result){
+        if(err){
+            console.log(err.toString());
+            res.send("failed");
+        }else{
+            if(result.rows.length===0){
+                
+            }else{
+                var pString=result.rows[0].pass;
+                var salt=pString.split('$')[2];
+                var pHash=hash(password,salt);
+                if(pHash===pString){
+                    res.send('credentials are correct');
+                }else{
+                    res.send('username or password is invalid');
+                }
+            }
+        }
 });
 
 app.get('/new/index',function(req,res){
