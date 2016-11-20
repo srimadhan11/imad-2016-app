@@ -1,3 +1,8 @@
+var time;
+function timer(){
+    document.getElementById('notification').innerHTML='';
+    clearTimeout(time);
+}
 function login(){
     var username=document.getElementById('username').value;
     var password=document.getElementById('password').value;
@@ -14,6 +19,7 @@ function login(){
                 }else{
                     notify.innerHTML="failed"
                 }
+                time=setTimeout(timer,3000);
             }
         }
     }
@@ -38,6 +44,7 @@ function signup(){
                 }else{
                     notify.innerHTML="nonvalid";
                 }
+                time=setTimeout(timer,3000);
             }
         }
     }
