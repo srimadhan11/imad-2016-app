@@ -9,7 +9,7 @@ function login(){
         if(request.readyState===XMLHttpRequest.DONE){
             if(request.status===200){
                 var result=request.responseText;
-                if(result.trim()==="sucess"){
+                if(result.trim()==="credentials are correct"){
                     notify.innerHTML="sucess";
                 }else{
                     notify.innerHTML="failed"
