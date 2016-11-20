@@ -27,10 +27,6 @@ function hash(input,salt){
     var hashed=crypto.pbkdf2Sync(input,salt,1000,512,'sha512');
     return ["pbkdf2Sync","1000",salt,hashed.toString('hex')].join('$');
 }
-app.get('/new/:input',function(req,res){
-    var hashValue=hash(req.params.input,'someRandomString');
-    res.send(hashValue);
-});
 app.post('/new/create',function(req,res){
     var username=req.body.username;
     var password=req.body.password;
@@ -62,6 +58,11 @@ app.get('/new/lstyle',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','lstyle.css'));
 });
 
+
+app.get('/new/:input',function(req,res){
+    var hashValue=hash(req.params.input,'someRandomString');
+    res.send(hashValue);
+});
 //newChat
 
 
