@@ -1,5 +1,3 @@
-var notify=document.getElementById('notification');
-
 function login(){
     var username=document.getElementById('username').value;
     var password=document.getElementById('password').value;
@@ -12,9 +10,9 @@ function login(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="sucess"){
-                    notify.value="sucess";
+                    notify.innerHTML="sucess";
                 }else{
-                    notify.value="failed"
+                    notify.innerHTML="failed"
                 }
             }
         }
