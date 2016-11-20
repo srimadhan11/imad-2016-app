@@ -20,7 +20,7 @@ function login(){
     
     request.open('POST','http://srimadhan11.imad.hasura-app.io/new/login',true);
     request.setRequestHeader('Content-Type','application/json');
-    request.send(JSON.stringify({username:username, passwword:password}));
+    request.send(JSON.stringify({username:username, password:password}));
 }
 function signup(){
     var username=document.getElementById('username').value;
@@ -44,5 +44,5 @@ function signup(){
     
     request.open('POST','http://srimadhan11.imad.hasura-app.io/new/create',true);
     request.setRequestHeader('Content-Type','application/json');
-    request.send(JSON.stringify({username:username, passwword:password}));
+    request.send(JSON.stringify({username:username, password:password}));
 }
