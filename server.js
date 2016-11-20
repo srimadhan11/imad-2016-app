@@ -38,6 +38,16 @@ app.post('/new/create',function(req,res){
     var pString=hash(password,salt);
     res.send("sucess for "+username);
 });
+app.post('/new/login',function(req,res){
+    var username=req.body.username;
+    var password=req.body.password;
+});
+app.get('/new/index',function(req,res){
+    res.sendFile(path.join(__dirname,'newChat','login.html'));
+});
+app.get('/new/main',function(req,res){
+    res.sendFile(path.join(__dirname,'newChat','main.html'));
+});
 
 
 //newChat
