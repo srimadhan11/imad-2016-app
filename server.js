@@ -2,8 +2,12 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 
+var crypto=require('crypto');
+var bodyParser=require('body-parser');
+
 var app = express();
 app.use(morgan('combined'));
+app.use(bodyParser.json());
 
 var Pool=require('pg').Pool;
 
@@ -16,6 +20,48 @@ var config={
 };
 
 var pool=new Pool(config);
+
+
+//newChat
+function hash(input,salt){
+    var hashed=crypto.pbkdf2Sync(input,salt,1000,512,'sha512');
+    return ["pbkdf2Sync","1000",salt,hashed.toString('hex')].join('$');
+}
+app.get('/new/:input',function(req,res){
+    var hashValue=hash(req.params.input,'someRandomString');
+    res.send(hashValue);
+});
+app.post('/new/create',function(req,res){
+    var username=req.body.username;
+    var password=req.body.password;
+    var salt=crypto.randomBytes(128).toString('hex');
+    var pString=hash(password,salt);
+    res.send("sucess for "+username);
+});
+app.post('/new/login',function(req,res){
+    var username=req.body.username;
+    var password=req.body.password;
+});
+app.get('/new/index',function(req,res){
+    res.sendFile(path.join(__dirname,'newChat','login.html'));
+});
+app.get('/new/main',function(req,res){
+    res.sendFile(path.join(__dirname,'newChat','main.html'));
+});
+
+
+//newChat
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/chat/chatlist',function(req,res){
     var name=req.query.n;
