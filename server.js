@@ -47,28 +47,28 @@ app.post('/new/create',function(req,res){
                         res.send("failed");
                     }else{
                         console.log("inserted into usert table");
-                        pool.query("create table $1_f(fr_name text not null primary key,fr_id serial not null unique,msg_flag smallint not null DEFAULT '0')",[username],function(err2){
+                        pool.query("create table "+username+"_f(fr_name text not null primary key,fr_id serial not null unique,msg_flag smallint not null DEFAULT '0')",function(err2){
                             if(err2){
                                 console.log("Unable to create "+username+"_f table");
                                 console.log(err2.toString());
                                 res.send("failed");
                             }else{
                                 console.log(username+"_f table created");
-                                pool.query("alter table $1_f add foreign key (fr_name) references usert(name)",[username],function(err3){
+                                pool.query("alter table "+username+"_f add foreign key (fr_name) references usert(name)",function(err3){
                                     if(err3){
                                         console.log("Unable to add foreign key to "+username+"_f table");
                                         console.log(err3.toString());
                                         res.send("failed");
                                     }else{
                                         console.log(username+"_f foreign key added");
-                                        pool.query("create table $1(f_id integer not null,msg text not null,flag smallint not null)",[username],function(err4){
+                                        pool.query("create table "+username+"(f_id integer not null,msg text not null,flag smallint not null)",function(err4){
                                             if(err4){
                                                 console.log("Unable to create "+username+" table");
                                                 console.log(err4.toString());
                                                 res.send("failed");
                                             }else{
                                                 console.log(username+" table created");
-                                                pool.query("alter table $1 add foreign key (f_id) references $1_f(fr_id);",[username],function(err5){
+                                                pool.query("alter table "+username+" add foreign key (f_id) references "+username+"_f(fr_id);",function(err5){
                                                     if(err5){
                                                         console.log("Unable to add foreign key to "+username+" table");
                                                         console.log(err5.toString());
