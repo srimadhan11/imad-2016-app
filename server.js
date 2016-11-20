@@ -90,8 +90,6 @@ app.post('/new/create',function(req,res){
         }
     });
     
-    
-    res.send("sucess for "+username);
 });
 app.post('/new/login',function(req,res){
     var username=req.body.username;
