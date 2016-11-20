@@ -11,9 +11,9 @@ function login(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="sucess"){
-                    notify.innerHTML="sucess";
+                    notify.value="sucess";
                 }else{
-                    notify.innerHTML="failed"
+                    notify.value="failed"
                 }
             }
         }
