@@ -102,7 +102,7 @@ app.post('/new/login',function(req,res){
             res.send("failed");
         }else{
             if(result.rows.length===0){
-                
+                res.send('username not exist');
             }else{
                 var pString=result.rows[0].pass;
                 var salt=pString.split('$')[2];
