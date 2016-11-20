@@ -45,16 +45,16 @@ app.get('/new/index',function(req,res){
 app.get('/new/main',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','main.html'));
 });
-app.get('/new/script',function(req,res){
+app.get('/new/script.js',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','script.js'));
 });
-app.get('/new/style',function(req,res){
+app.get('/new/style.css',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','style.css'));
 });
-app.get('/new/lscript',function(req,res){
+app.get('/new/lscript.js',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','lscript.js'));
 });
-app.get('/new/lstyle',function(req,res){
+app.get('/new/lstyle.css',function(req,res){
     res.sendFile(path.join(__dirname,'newChat','lstyle.css'));
 });
 
