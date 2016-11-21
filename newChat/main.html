@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat</title>
+    <script src="/newChat/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="/newChat/style.css" />
+	</head>
+	<body>
+        <div align="center" font-family="san-serif" class="text">Chat</div>
+        <button class="btn-pr" style="float: right;" onclick="logout()">Logout</button>
+        <div class="container3">
+            <div id="friend1" style="
+                margin-top: 10px;
+                margin-bottom: 10px;
+                margin-left: 5px;
+                margin-right: 30px;">
+                <div>
+                   <input class="inp" id="friend" type="text" placeholder="Search Friends">
+                   <button class="btn-pr" id="search" onclick="search()">Search</button>
+                </div>
+                <br/>
+                <div id="fr" onload="friendlist()">
+
+                </div>
+            </div>
+            <div style="border-left:solid grey;"></div>
+            <div id="chat" class="container2">
+                <div class="text" id="frienname"></div>
+                <div style="height: 225px;overflow: auto;" id="ch">
+                    Find and select your friends in leftside panel to view the conversation
+                </div>
+                <div class="container1">
+                    <input class="inp1" id="msg" type="text" placeholder="Write a message">
+                    <button class="btn-sec" id="send" onclick="send()">Send</button>
+                </div>
+            </div>
+        </div>
+	</body>
+</html>

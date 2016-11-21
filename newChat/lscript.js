@@ -1,4 +1,5 @@
 var time;
+var url='http://srimadhan11.imad.hasura-app.io/';
 function timer(){
     document.getElementById('notification').innerHTML='';
     clearTimeout(time);
@@ -15,7 +16,7 @@ function login(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="credentials are correct"){
-                    notify.innerHTML="sucess";
+                    window.location.href=url+'/new/main';
                 }else{
                     notify.innerHTML="failed"
                 }
@@ -24,7 +25,7 @@ function login(){
         }
     }
     
-    request.open('POST','http://srimadhan11.imad.hasura-app.io/new/login',true);
+    request.open('POST',url+'new/login',true);
     request.setRequestHeader('Content-Type','application/json');
     request.send(JSON.stringify({username:username, password:password}));
 }
@@ -49,7 +50,7 @@ function signup(){
         }
     }
     
-    request.open('POST','http://srimadhan11.imad.hasura-app.io/new/create',true);
+    request.open('POST',url+'new/create',true);
     request.setRequestHeader('Content-Type','application/json');
     request.send(JSON.stringify({username:username, password:password}));
 }
