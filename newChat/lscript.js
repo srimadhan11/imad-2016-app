@@ -16,7 +16,7 @@ function login(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="credentials are correct"){
-                    window.location.href=url+'/new/main';
+                    window.location.href=url+'new/main';
                 }else{
                     notify.innerHTML="failed"
                 }
