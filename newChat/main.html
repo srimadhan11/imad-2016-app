@@ -5,7 +5,7 @@
     <script src="/new/script.js"></script>
     <link rel="stylesheet" type="text/css" href="/new/style.css" />
 	</head>
-	<body>
+	<body onload="friendlist()">
         <div align="center" font-family="san-serif" class="text">Chat</div>
         <button class="btn-pr" style="float: right;" onclick="logout()">Logout</button>
         <div class="container3">
@@ -19,7 +19,7 @@
                    <button class="btn-pr" id="search" onclick="search()">Search</button>
                 </div>
                 <br/>
-                <div id="fr" onload="friendlist()">
+                <div id="fr">
 
                 </div>
             </div>
