@@ -161,7 +161,7 @@ app.get('/new/hash/:input',function(req,res){
 
 app.post('/new/chatlist',function(req,res){
     var friend=req.body.friend;
-    var name=req.session.auth.userId.toString();
+    var name=req.session.auth.userId;
     if(checklogin(req)){
         var friendid;
         pool.query("SELECT * FROM "+name+"_f WHERE fr_name = $1",[friend],function(err,result){
@@ -187,7 +187,7 @@ app.post('/new/chatlist',function(req,res){
 });
 
 app.get('/new/friends',function(req,res){
-    var name=req.session.auth.userId.toString();
+    var name=req.session.auth.userId;
     if(checklogin(req)){
         pool.query("SELECT * FROM "+name+"_f",function(err,result){
             if(err){
@@ -210,7 +210,7 @@ app.get('/new/friends',function(req,res){
 app.post('/new/send',function(req,res){
     var message=req.body.msg;
     var friend=req.body.friend;
-    var user=req.session.auth.userId.toString();
+    var user=req.session.auth.userId;
 
     if(checklogin(req)){
         pool.query("SELECT * FROM usert WHERE name = $1",[friend],function(err,result){
@@ -277,7 +277,7 @@ app.post('/new/send',function(req,res){
 
 app.post('/new/search',function(req,res){
     var friend=req.body.friend;
-    var user=req.session.auth.userId.toString();
+    var user=req.session.auth.userId;
 
     if(checklogin(req)&&user!=friend){
         pool.query("SELECT * FROM usert WHERE name = $1",[friend],function(err,result){
@@ -314,7 +314,7 @@ app.post('/new/search',function(req,res){
 });
 
 app.get('/new/newf',function(req,res){
-    var name=req.session.auth.userId.toString();
+    var name=req.session.auth.userId;
     if(checklogin(req)){
         pool.query("SELECT * FROM usert WHERE name = $1",[name],function(err,result){
             if(err){
@@ -341,7 +341,7 @@ app.get('/new/newf',function(req,res){
 
 app.post('/new/newmsg',function(req,res){
     var friend=req.body.friend;
-    var name=req.session.auth.userId.toString();
+    var name=req.session.auth.userId;
     
     if(checklogin(req)){
         pool.query("SELECT * FROM "+name+"_f WHERE fr_name = $1",[friend],function(err,result) {
