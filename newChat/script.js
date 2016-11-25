@@ -145,9 +145,9 @@ setInterval(function () {
                 }
             }
         }
-        request.open('POST', url+'/new/newmsg', true);
-        request.setRequestHeader('Content-Type','application/json');
-        request.send(JSON.stringify({friend:friendd}));
+        request1.open('POST', url+'/new/newmsg', true);
+        request1.setRequestHeader('Content-Type','application/json');
+        request1.send(JSON.stringify({friend:friendd}));
     }
 },5000);
 
