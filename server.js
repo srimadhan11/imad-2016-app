@@ -208,7 +208,7 @@ app.get('/new/friends',function(req,res){
 });
 
 app.post('/new/send',function(req,res){
-    var message=req.body.msg;
+    var msg=req.body.msg;
     var friend=req.body.friend;
     var user=req.session.auth.userId;
 
@@ -242,23 +242,27 @@ app.post('/new/send',function(req,res){
                                                 res.send("failed");
                                             }else{
                                                 var userid;
+                                                var t="sucess";
                                                 userid=result3.rows[0].fr_id;
                                                 pool.query("insert into "+user+" values($1,$2,'1')",[friendid,msg],function(err4){
                                                     if(err4){
                                                         console.log(err4.toString());
+                                                        t="failed";
                                                     }
                                                 });
                                                 pool.query("insert into "+friend+" values($1,$2,'0')",[userid,msg],function(err5){
                                                     if(err5){
                                                         console.log(err5.toString());
+                                                        t="failed";
                                                     }
                                                 });
                                                 pool.query("UPDATE "+friend+"_f SET msg_flag = 1 WHERE fr_name = $1",[user],function(err6){
                                                     if(err6){
                                                         console.log(err6.toString());
+                                                        t="failed";
                                                     }
                                                 });
-                                                res.send("sucess");
+                                                res.send(t);
                                             }
                                         });
                                     }
@@ -288,22 +292,26 @@ app.post('/new/search',function(req,res){
                 if(result.rows.length===0){
                     res.send("notadded");
                 }else{
+                    var t="added";
                     pool.query("insert into "+user+"_f (fr_name) values($1)",[friend],function(err1){
                         if(err1){
                             console.log(err1.toString());
+                            t="notadded";
                         }
                     });
                     pool.query("insert into "+friend+"_f (fr_name) values($1)",[user],function(err2){
                         if(err2){
                             console.log(err2.toString());
+                            t="notadded";
                         }
                     });
                     pool.query("UPDATE usert SET fr_flag = 1 WHERE name = $1",[friend],function(err3){
                         if(err3){
                             console.log(err3.toString());
+                            t="notadded";
                         }
                     });
-                    res.send("added");
+                    res.send(t);
                 }
             }
         });
@@ -322,12 +330,14 @@ app.get('/new/newf',function(req,res){
                 res.send("nonew");
             }else{
                 if (result.rows[0].fr_flag===1) {
+                    var t="new";
                     pool.query("UPDATE usert SET fr_flag = 0 WHERE name = $1",[name],function(err1){
                         if(err1){
                             console.log(err1.toString());
+                            t="nonew";
                         }
                     });
-                    res.send("new");
+                    res.send(t);
                 }else {
                     res.send("nonew");
                 }
@@ -353,12 +363,14 @@ app.post('/new/newmsg',function(req,res){
                     res.send("nonew");
                 }else {
                     if (result.rows[0].msg_flag===1) {
+                        t="new";
                         pool.query("UPDATE "+name+"_f SET msg_flag = 0 WHERE fr_name = $1",[friend],function(err1){
                             if(err1){
                                 console.log(err1.toString());
+                                t="nonew";
                             }
                         });
-                        res.send("new");
+                        res.send(t);
                     }else {
                         res.send("nonew");
                     }
