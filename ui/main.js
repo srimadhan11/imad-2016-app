@@ -182,9 +182,9 @@ function comment(){
                 var result=JSON.parse(request2.responseText.trim());
                 var temp='';
                 for (var i = 0; i < result.length; i++) {
-                        var time = new Date(result[i].timestamp);
+                        var time = new Date(result[i].time);
                         temp+= `
-                            <p>${result[i].comment}</p>
+                            <p>${result[i].comments}</p>
                             <div class="comments">
                                 ${result[i].user_name} - ${time.toLocaleTimeString()} on ${time.toLocaleDateString()} 
                             </div>
