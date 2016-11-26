@@ -189,7 +189,6 @@ function comment(){
                                 ${result[i].user_name} - ${time.toLocaleTimeString()} on ${time.toLocaleDateString()} 
                             </div>
                         `;
-                        temp+=``;
                     }
                 document.getElementById('comment').innerHTML=temp;
             }
