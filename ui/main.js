@@ -110,7 +110,7 @@ function article(articleid){
     document.body.innerHTML=`
         <div class='container'>
             <button class="btn-ptr" onclick="start()">Home</button>
-            <button class="btn-sec" onclick="logout()" style="float:right;display:block;">Logout</button>
+            <button class="btn-sec" id="logoutbtn" onclick="logout()" style="float:right;display:block;">Logout</button>
             <br/>
             <div id='articlename'></div>
             <br/>
@@ -150,8 +150,10 @@ function article(articleid){
                         <textarea id="commenttext" style='display:block;' rows="5" cols="80" placeholder="Enter your comment"></textarea>
                         <button class="btn-sec" onclick="submit()">Submit</button>
                     `;
+                    document.getElementById('logoutbtn').style.visibility='visible';
                 }else{
                     document.getElementById('commentbox').innerHTML='';
+                    document.getElementById('logoutbtn').style.visibility='hidden';
                 }
             }
         }
