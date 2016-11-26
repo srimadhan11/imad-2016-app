@@ -184,7 +184,7 @@ function comment(){
                 for (var i = 0; i < result.length; i++) {
                         var time = new Date(result[i].timestamp);
                         temp+= `
-                            <p>${escapeHTML(result[i].comment)}</p>
+                            <p>${result[i].comment}</p>
                             <div class="comments">
                                 ${result[i].user_name} - ${time.toLocaleTimeString()} on ${time.toLocaleDateString()} 
                             </div>
