@@ -110,7 +110,7 @@ function article(articleid){
     document.body.innerHTML=`
         <div class='container'>
             <button class="btn-ptr" onclick="start()">Home</button>
-            <button class="btn-sec" onclick="logout()">Logout</button>
+            <button class="btn-sec" onclick="logout()" style="float:right;display:block;">Logout</button>
             <br/>
             <div id='articlename'></div>
             <br/>
@@ -118,8 +118,7 @@ function article(articleid){
             <hr/>
             <h3>User Comments</h3>
             <div id='commentbox'>
-                <textarea id="commenttext" style='display:block;' rows="5" cols="80" placeholder="Enter your comment"></textarea>
-                <button class="btn-sec" onclick="submit()">Submit</button>
+                
             </div>
             <br/>
             <div id='comment'></div>
@@ -147,9 +146,12 @@ function article(articleid){
             if(request1.status===200){
                 var result=request1.responseText;
                 if(result.trim()==='loggedin'){
-                    document.getElementById('commentbox').style.visibility='visible';
+                    document.getElementById('commentbox').innerHTML=`
+                        <textarea id="commenttext" style='display:block;' rows="5" cols="80" placeholder="Enter your comment"></textarea>
+                        <button class="btn-sec" onclick="submit()">Submit</button>
+                    `;
                 }else{
-                    document.getElementById('commentbox').style.visibility='hidden';
+                    document.getElementById('commentbox').innerHTML='';
                 }
             }
         }
