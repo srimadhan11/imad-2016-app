@@ -429,7 +429,6 @@ app.post('/submit', function (req, res) {
     var articleid=req.body.articleid;
     var comment=req.body.comment;
     var username=req.session.auth.userId;
-    var userid;
     
     pool.query("SELECT * FROM usert WHERE name = $1",[username],function(err,result){
         if(err){
@@ -439,17 +438,16 @@ app.post('/submit', function (req, res) {
             if(result.rows.length===0){
                 res.send('failed');
             }else{
-                userid=result.rows[0].id;
+                var userid=result.rows[0].id;
+                pool.query("insert into comment values($1,$2,$3,current_timestamp,$4)",[articleid,userid,comment,username],function(err1){
+                    if(err1){
+                        console.log(err1.toString());
+                        res.send('failed');
+                    }else{
+                        res.send('sucess');
+                    }
+                });
             }
-        }
-    });
-    
-    pool.query("insert into comment values($1,$2,$3,current_timestamp,$4)",[articleid,userid,comment,username],function(err){
-        if(err){
-            console.log(err.toString());
-            res.send('failed');
-        }else{
-            res.send('sucess');
         }
     });
 });
