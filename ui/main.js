@@ -209,6 +209,7 @@ function logout(){
                 var result=request1.responseText;
                 if(result.trim()==='sucess'){
                     start();
+                }
             }
         }
     }
