@@ -381,11 +381,78 @@ app.get('/ui/style.css', function (req, res) {
 app.get('/ui/main.js',function(req,res){
     res.sendFile(path.join(__dirname,'ui','main.js'));
 });
-
 app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
 });
 
+
+app.get('/articles', function (req, res) {
+    pool.query("SELECT * FROM article",function(err,result){
+        if(err){
+            console.log(err.toString());
+            res.send("failed");
+        }else{
+            res.send(JSON.stringify(result.rows));
+        }
+    });
+});
+app.post('/article', function (req, res) {
+    var articleid=req.body.articleid;
+    pool.query("SELECT * FROM article WHERE id=$1",[articleid],function(err,result){
+        if(err){
+            console.log(err.toString());
+            res.send("failed");
+        }else{
+            res.send(JSON.stringify(result.rows[0]));
+        }
+    });
+});
+app.get('/check', function (req, res) {
+    if(checklogin(req)){
+        res.send('loggedin');
+    }else{
+        res.send('loggedout');
+    }
+});
+app.post('/comments', function (req, res) {
+    var articleid=req.body.articleid;
+    pool.query("SELECT * FROM comment WHERE article_id=$1",[articleid],function(err,result){
+        if(err){
+            console.log(err.toString());
+            res.send("failed");
+        }else{
+            res.send(JSON.stringify(result.rows));
+        }
+    });
+});
+app.post('/submit', function (req, res) {
+    var articleid=req.body.articleid;
+    var comment=req.body.comment;
+    var username=req.session.auth.userId;
+    var userid;
+    
+    pool.query("SELECT * FROM usert WHERE name = $1",[username],function(err,result){
+        if(err){
+            console.log(err.toString());
+            res.send("failed");
+        }else{
+            if(result.rows.length===0){
+                res.send('failed');
+            }else{
+                userid=result.rows[0].id;
+            }
+        }
+    });
+    
+    pool.query("insert into comment values($1,$2,$3,current_timestamp,$4)",[articleid,userid,comment,username],function(err){
+        if(err){
+            console.log(err.toString());
+            res.send('failed');
+        }else{
+            res.send('sucess');
+        }
+    });
+});
 
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
 app.listen(8080, function () {
