@@ -430,26 +430,30 @@ app.post('/submit', function (req, res) {
     var comment=req.body.comment;
     var username=req.session.auth.userId;
     
-    pool.query("SELECT * FROM usert WHERE name = $1",[username],function(err,result){
-        if(err){
-            console.log(err.toString());
-            res.send("failed");
-        }else{
-            if(result.rows.length===0){
-                res.send('failed');
+    if(checklogin(req)){
+        pool.query("SELECT * FROM usert WHERE name = $1",[username],function(err,result){
+            if(err){
+                console.log(err.toString());
+                res.send("failed");
             }else{
-                var userid=result.rows[0].id;
-                pool.query("insert into comment values($1,$2,$3,current_timestamp,$4)",[articleid,userid,comment,username],function(err1){
-                    if(err1){
-                        console.log(err1.toString());
-                        res.send('failed');
-                    }else{
-                        res.send('sucess');
-                    }
-                });
+                if(result.rows.length===0){
+                    res.send('failed');
+                }else{
+                    var userid=result.rows[0].id;
+                    pool.query("insert into comment values($1,$2,$3,current_timestamp,$4)",[articleid,userid,comment,username],function(err1){
+                        if(err1){
+                            console.log(err1.toString());
+                            res.send('failed');
+                        }else{
+                            res.send('sucess');
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
+    }else{
+        res.send("failed");
+    }
 });
 
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
