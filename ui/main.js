@@ -109,7 +109,9 @@ function article(articleid){
     article_id=articleid;
     document.body.innerHTML=`
         <div class='container'>
-            <button class="btn-ptr" style="display:block;" onclick="start()">Home</button>
+            <button class="btn-ptr" onclick="start()">Home</button>
+            <button class="btn-sec" onclick="logout()">Logout</button>
+            <br/>
             <div id='articlename'></div>
             <br/>
             <div id='articlebody'></div>
@@ -198,4 +200,20 @@ function comment(){
     request2.open('POST',url+'comments',true);
     request2.setRequestHeader('Content-Type','application/json');
     request2.send(JSON.stringify({articleid:article_id}));
+}
+function logout(){
+    var request1=new XMLHttpRequest();
+    request1.onreadystatechange=function(){
+        if(request1.readyState===XMLHttpRequest.DONE){
+            if(request1.status===200){
+                var result=request1.responseText;
+                if(result.trim()==='sucess'){
+                    start();
+            }
+        }
+    }
+    
+    request1.open('GET',url+'logout',true);
+    request1.send(null);
+    
 }
