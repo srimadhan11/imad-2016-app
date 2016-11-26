@@ -9,7 +9,7 @@ function start(){
     document.body.innerHTML=`
         <div class="container">
             <div class="center">
-                <img src="/ui/madi.png" class="img-medium">
+                <img src="https://drive.google.com/uc?id=0B69ezjNvy5YgVm13VS1ESjFsVms" class="img-medium">
             </div>
              <div>
                 <p>My name is Sri Madhan</p>
