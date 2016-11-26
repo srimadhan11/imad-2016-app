@@ -109,7 +109,7 @@ function article(articleid){
     article_id=articleid;
     document.body.innerHTML=`
         <div class='container'>
-            <button class="btn-ptr" style="display:block;">Home</button>
+            <button class="btn-ptr" style="display:block;" onclick="start()">Home</button>
             <div id='articlename'></div>
             <br/>
             <div id='articlebody'></div>
