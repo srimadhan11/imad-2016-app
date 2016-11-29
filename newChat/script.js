@@ -40,7 +40,7 @@ function createchatlist(resp,fname){
         chatlist(fname);
     }else{
         //notify failure
-        alert("failed");
+        alert("Failed to load content!");
     }
 }
 function createfriendlist(resp){
@@ -48,7 +48,7 @@ function createfriendlist(resp){
         friendlist();
     }else{
         //notify failure
-        alert("not added");
+        alert("Unable to add friend!");
     }
 }
 

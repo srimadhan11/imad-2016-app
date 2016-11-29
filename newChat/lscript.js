@@ -18,7 +18,7 @@ function login(){
                 if(result.trim()==="credentials are correct"){
                     window.location.href=url+'new/main';
                 }else{
-                    notify.innerHTML="failed"
+                    notify.innerHTML="Username or Password is invalid"
                 }
                 time=setTimeout(timer,3000);
             }
@@ -41,9 +41,9 @@ function signup(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="valid"){
-                    notify.innerHTML="valid";
+                    notify.innerHTML="Account created!";
                 }else{
-                    notify.innerHTML="nonvalid";
+                    notify.innerHTML="Unable to create new account!";
                 }
                 time=setTimeout(timer,3000);
             }

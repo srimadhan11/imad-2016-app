@@ -28,6 +28,29 @@ function start(){
     `;
     var article=document.getElementById('article');
     
+    sidestartup();
+    
+    var request1=new XMLHttpRequest();
+    request1.onreadystatechange=function(){
+        if(request1.readyState===XMLHttpRequest.DONE){
+            if(request1.status===200){
+                var result=request1.responseText.trim();
+                result=JSON.parse(result);
+                var temp=`
+                    <p>List of Articles available</p>
+                `;
+                for (var i = 0; i < result.length; i++) {
+                        temp+=`<button onclick="article(`+result[i].id+`)" class="btn-list">`+result[i].name+`</button>`;
+                    }
+                article.innerHTML=temp;
+            }
+        }
+    }
+    
+    request1.open('GET',url+'articles',true);
+    request1.send(null);
+}
+function sidestartup(){
     var request=new XMLHttpRequest();
     request.onreadystatechange=function(){
         if(request.readyState===XMLHttpRequest.DONE){
@@ -51,28 +74,7 @@ function start(){
     
     request.open('GET',url+'check',true);
     request.send(null);
-    
-    var request1=new XMLHttpRequest();
-    request1.onreadystatechange=function(){
-        if(request1.readyState===XMLHttpRequest.DONE){
-            if(request1.status===200){
-                var result=request1.responseText.trim();
-                result=JSON.parse(result);
-                var temp=`
-                    <p>List of Articles available</p>
-                `;
-                for (var i = 0; i < result.length; i++) {
-                        temp+=`<button onclick="article(`+result[i].id+`)" class="btn-list">`+result[i].name+`</button>`;
-                    }
-                article.innerHTML=temp;
-            }
-        }
-    }
-    
-    request1.open('GET',url+'articles',true);
-    request1.send(null);
 }
-
 function login(){
     var username=document.getElementById('username').value;
     var password=document.getElementById('password').value;
@@ -85,11 +87,10 @@ function login(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="credentials are correct"){
-                    notify.innerHTML='sucess';
-                    document.getElementById('username').value='';
-                    document.getElementById('password').value='';
+                    notify.innerHTML='User '+username+' signed in';
+                    sidestartup();
                 }else{
-                    notify.innerHTML="failed";
+                    notify.innerHTML="Username or Password is invalid";
                 }
                 time=setTimeout(timer,3000);
             }
@@ -112,11 +113,11 @@ function create(){
             if(request.status===200){
                 var result=request.responseText;
                 if(result.trim()==="valid"){
-                    notify.innerHTML="valid";
+                    notify.innerHTML="Account created!";
                     document.getElementById('username').value='';
                     document.getElementById('password').value='';
                 }else{
-                    notify.innerHTML="nonvalid";
+                    notify.innerHTML="Unable to create new account!";
                 }
                 time=setTimeout(timer,3000);
             }
