@@ -35,14 +35,14 @@ function start(){
                 var result=request.responseText;
                 if(result.trim()==='loggedin'){
                     document.getElementById('loginpanel').innerHTML=`
+                        <button class="btn-ptr" onclick="logout()">Log Out</button>
+                    `;
+                }else{
+                    document.getElementById('loginpanel').innerHTML=`
                         <input class="inp" id="username" placeholder="Username" type="text">
                         <input class="inp" id="password" placeholder="Password" type="password">
                         <button class="btn-ptr" onclick="login()">Log In</button>
                         <button class="btn-sec" onclick="create()">Create</button>
-                    `;
-                }else{
-                    document.getElementById('loginpanel').innerHTML=`
-                        <button class="btn-ptr" onclick="logout()">Log Out</button>
                     `;
                 }
             }
