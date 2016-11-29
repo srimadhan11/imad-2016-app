@@ -28,24 +28,35 @@ function start(){
     `;
     var article=document.getElementById('article');
     
-    if(check()){
-        document.getElementById('loginpanel').innerHTML=`
-            <input class="inp" id="username" placeholder="Username" type="text">
-            <input class="inp" id="password" placeholder="Password" type="password">
-            <button class="btn-ptr" onclick="login()">Log In</button>
-            <button class="btn-sec" onclick="create()">Create</button>
-        `;
-    }else{
-        document.getElementById('loginpanel').innerHTML=`
-            <button class="btn-ptr" onclick="logout()">Log Out</button>
-        `;
-    }
-    
     var request=new XMLHttpRequest();
     request.onreadystatechange=function(){
         if(request.readyState===XMLHttpRequest.DONE){
             if(request.status===200){
-                var result=request.responseText.trim();
+                var result=request.responseText;
+                if(result.trim()==='loggedin'){
+                    document.getElementById('loginpanel').innerHTML=`
+                        <input class="inp" id="username" placeholder="Username" type="text">
+                        <input class="inp" id="password" placeholder="Password" type="password">
+                        <button class="btn-ptr" onclick="login()">Log In</button>
+                        <button class="btn-sec" onclick="create()">Create</button>
+                    `;
+                }else{
+                    document.getElementById('loginpanel').innerHTML=`
+                        <button class="btn-ptr" onclick="logout()">Log Out</button>
+                    `;
+                }
+            }
+        }
+    }
+    
+    request.open('GET',url+'check',true);
+    request.send(null);
+    
+    var request1=new XMLHttpRequest();
+    request1.onreadystatechange=function(){
+        if(request1.readyState===XMLHttpRequest.DONE){
+            if(request1.status===200){
+                var result=request1.responseText.trim();
                 result=JSON.parse(result);
                 var temp=`
                     <p>List of Articles available</p>
@@ -58,8 +69,8 @@ function start(){
         }
     }
     
-    request.open('GET',url+'articles',true);
-    request.send(null);
+    request1.open('GET',url+'articles',true);
+    request1.send(null);
 }
 
 function login(){
@@ -136,47 +147,46 @@ function article(articleid){
         </div>
     `;
     
-    var request=new XMLHttpRequest();
-    request.onreadystatechange=function(){
-        if(request.readyState===XMLHttpRequest.DONE){
-            if(request.status===200){
-                var result=JSON.parse(request.responseText);
+    var request1=new XMLHttpRequest();
+    request1.onreadystatechange=function(){
+        if(request1.readyState===XMLHttpRequest.DONE){
+            if(request1.status===200){
+                var result=JSON.parse(request1.responseText);
                 document.getElementById('articlename').innerHTML=result.name;
                 document.getElementById('articlebody').innerHTML=result.content;
             }
         }
     }
     
-    request.open('POST',url+'article',true);
-    request.setRequestHeader('Content-Type','application/json');
-    request.send(JSON.stringify({articleid:articleid}));
+    request1.open('POST',url+'article',true);
+    request1.setRequestHeader('Content-Type','application/json');
+    request1.send(JSON.stringify({articleid:articleid}));
     
-    if(check()){
-        document.getElementById('commentbox').innerHTML=`
-            <textarea id="commenttext" style='display:block;' rows="5" cols="80" placeholder="Enter your comment"></textarea>
-            <button class="btn-sec" onclick="submit()">Submit</button>
-        `;
-        document.getElementById('logoutbtn').style.visibility='visible';
-    }else{
-        document.getElementById('commentbox').innerHTML='';
-        document.getElementById('logoutbtn').style.visibility='hidden';
-    }
-    comment();
     
-}
-function check(){
     var request=new XMLHttpRequest();
     request.onreadystatechange=function(){
         if(request.readyState===XMLHttpRequest.DONE){
             if(request.status===200){
                 var result=request.responseText;
-                return result.trim()==='loggedin';
+                if(result.trim()==='loggedin'){
+                    document.getElementById('commentbox').innerHTML=`
+                        <textarea id="commenttext" style='display:block;' rows="5" cols="80" placeholder="Enter your comment"></textarea>
+                        <button class="btn-sec" onclick="submit()">Submit</button>
+                    `;
+                    document.getElementById('logoutbtn').style.visibility='visible';
+                }else{
+                    document.getElementById('commentbox').innerHTML='';
+                    document.getElementById('logoutbtn').style.visibility='hidden';
+                }
             }
         }
     }
     
     request.open('GET',url+'check',true);
     request.send(null);
+    
+    comment();
+    
 }
 function submit(){
     var com=document.getElementById('commenttext').value;
