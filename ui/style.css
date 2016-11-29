@@ -88,3 +88,19 @@ hr{
   border: none;
   display:block;
 }
+.warning{
+    padding:10px;
+    margin:10px;
+    font-size: xx-large;
+    color:#EF6C00;
+    /*! float: right; */
+    display: block;
+    margin-left: 500px;
+}
+.comments{
+    padding-left: 10px;
+}
+hr.style1 {
+	background-color: #fff;
+	border-top: 2px dashed #8c8b8b;
+}
